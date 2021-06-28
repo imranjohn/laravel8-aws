@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Middleware;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +16,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
-    dd(app('currentTenant') );
+// {tenant}'.env('BASE_DOMAIN')
+
+Route::domain('{tenant}.'.env('BASE_DOMAIN'))->middleware('tenant')->group(function() {
+    
+    Route::get('/', function ($tenant) {
+    
+        return $tenant;
+    });
+
+});
+
+Route::get('/', function (Request $request) {
     return view('welcome');
-});
-Route::middleware('tenant')->group(function() {
-  
-});
+ });
+
+
 
