@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,12 +14,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
 
-Route::get('/', function () {
-    dd(app('currentTenant') );
-    return view('welcome');
+//     return view('welcome');
+// });
+
+Route::domain('{tenant}.laravel8-aws.local')->group(function () {
+    Route::get('/', function () {
+      dd(User::find(1));
+        return view('welcome');
+     })->middleware('tenant');
 });
-Route::middleware('tenant')->group(function() {
-  
+Route::domain('laravel8-aws.local')->group(function () {
+    Route::get('/', function () {
+        dd(User::find(1));
+          return view('welcome');
+       });
 });
+// Route::middleware('tenant')->group(function() {
+//     Route::get('/', function () {
+      
+//        return view('welcome');
+//     });
+
+//     // if(Spatie\Multitenancy\Models\Tenant::checkCurrent()){
+//     //     // dd(User::find(1));
+//     //   } else {
+//     //     //   dd(User::find(1), "here");
+//     //       echo "landlord"; exit;
+//     //   }
+//     //  dd(app('currentTenant'));
+     
+//     // Route::get('/', function () {
+//     //     dd(app('currentTenant') );
+//     //     return view('welcome');
+//     // });
+// });
 
