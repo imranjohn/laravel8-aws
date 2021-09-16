@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use GuzzleHttp\Middleware;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,12 +27,20 @@ Route::domain('{tenant}.laravel8-aws.local')->group(function () {
         return view('welcome');
      })->middleware('tenant');
 });
+
 Route::domain('laravel8-aws.local')->group(function () {
     Route::get('/', function () {
         dd(User::find(1));
           return view('welcome');
        });
 });
+
+// Route::domain('{tenant}.'.env('BASE_DOMAIN'))->middleware('tenant')->group(function() {
+    
+//     Route::get('/', function ($tenant) {
+    
+//         return $tenant;
+//     });
 // Route::middleware('tenant')->group(function() {
 //     Route::get('/', function () {
       
@@ -50,4 +60,10 @@ Route::domain('laravel8-aws.local')->group(function () {
 //     //     return view('welcome');
 //     // });
 // });
+
+Route::get('/', function (Request $request) {
+    return view('welcome');
+ });
+
+
 
